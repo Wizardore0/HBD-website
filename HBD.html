@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebration Cake</title>
+    <!-- Adding the Parkinsans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Parkinsans', sans-serif;
+            text-align: center;
+            background: url('HBD/Draft 2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px #000;
+            margin-bottom: 20px;
+        }
+
+        .cake {
+            margin: 50px auto;
+            width: 200px;
+            position: relative;
+            max-width: 90%;
+        }
+
+        .layer {
+            width: 200px;
+            height: 50px;
+            margin: 5px auto;
+            border-radius: 5px;
+        }
+
+        .layer.top {
+            background-color: #ffc1cc;
+            width: 160px;
+            margin: 0 auto;
+        }
+
+        .layer.middle {
+            background-color: #ffb347;
+        }
+
+        .layer.bottom {
+            background-color: #ff704d;
+            height: 60px;
+        }
+
+        .candle {
+            width: 10px;
+            height: 30px;
+            background-color: #ffff99;
+            margin: 0 5px;
+            display: inline-block;
+            position: relative;
+            border-radius: 2px;
+        }
+
+        .candle::before {
+            content: '';
+            width: 5px;
+            height: 10px;
+            background-color: #ffcc00;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            animation: flicker 1s infinite alternate;
+        }
+
+        .candles {
+            display: flex;
+            justify-content: center;
+            margin-top: -15px;
+        }
+
+        .candle.blow-out::before {
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes flicker {
+            0% {
+                background-color: #ffcc00;
+                transform: translateX(-50%) scale(1);
+            }
+            100% {
+                background-color: #ff9900;
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+            }
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 1.8em;
+            color: #ffe6e6;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        .wish-button, .play-music-button {
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #ff704d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .wish-button:hover, .play-music-button:hover {
+            background-color: #ff5733;
+        }
+
+        .wish-display {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #000000;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .cake {
+                width: 150px;
+            }
+
+            .layer {
+                width: 150px;
+            }
+
+            .wish-button, .play-music-button {
+                padding: 8px 16px;
+                font-size: 1em;
+            }
+
+            .wish-display {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy Birthday na kub, Papa P'Ter!</h1>
+    <div class="cake">
+        <div class="candles">
+            <div class="candle"></div>
+            <div class="candle"></div>
+            <div class="candle"></div>
+        </div>
+        <div class="layer top"></div>
+        <div class="layer middle"></div>
+        <div class="layer bottom"></div>
+    </div>
+    <button class="wish-button" onclick="makeAWish()">Make a Wish!</button>
+    <button class="play-music-button" onclick="playMusic()">Play Music</button>
+    <p class="wish-display" id="wishDisplay"></p>
+
+    <script>
+        // List of random wishes
+        const wishes = [
+            "ขอให้คุณบีมเรียนจบไวๆนะคับ!",
+            "ขอให้คิดอะไรก็สมหวังกับสิ่งที่หวังไว้นะคับ",
+            "ขอให้ร่ำรวยยิ่งๆขึ้นไปนะคับ",
+            "ขอให้aespa No.1 Gen 4 ตลอดไป",
+            "หวังว่าจะเป็นปีที่23 ที่ดีนะคับ!",
+        ];
+
+        // Function to play audio when the user clicks to play music
+        let audio;
+        function playMusic() {
+            // Play audio if not already playing
+            if (!audio) {
+                audio = new Audio('Audio/HBD2.mp3');
+                audio.play();
+            } else if (audio.paused) {
+                audio.play();
+            }
+        }
+
+        // Function to display a random wish and blow out candles
+        function makeAWish() {
+            // Display random wish
+            const randomIndex = Math.floor(Math.random() * wishes.length);
+            const wishMessage = wishes[randomIndex];
+            document.getElementById('wishDisplay').innerText = wishMessage;
+
+            // Trigger the candle blow-out animation
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.classList.add('blow-out');
+            });
+        }
+    </script>
+</body>
+</html>
